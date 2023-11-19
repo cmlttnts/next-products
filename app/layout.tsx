@@ -18,12 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} pt-4 pl-4 pr-4`}>
         <header className="w-full flex items-center mt-2 mb-2">
           <Nav />
           <LoginButtons />
         </header>
-        {children}
+        <main className="p-5">{children}</main>
       </body>
     </html>
   );
