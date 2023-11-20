@@ -1,20 +1,8 @@
+import { getAllProducts, searchProducts } from "@/app/api/dummyProduct";
 import Pagination from "../Pagination";
 
 /* eslint-disable @next/next/no-img-element */
-type Product = {
-  id: string;
-  title: string;
-  price: number;
-  images: string[];
-};
 
-type Response = {
-  products: Product[];
-  total: number;
-};
-const BASE_URL = "https://dummyjson.com";
-const PRODUCTS_URL = `${BASE_URL}/products`;
-const PRODUCTS_SEARCH_URL = `${BASE_URL}/products/search`;
 const PRODUCTS_LIMIT = 10;
 
 export default async function ProductsTable({
@@ -25,16 +13,24 @@ export default async function ProductsTable({
   q: string;
 }) {
   const skip = (Number(page) - 1) * PRODUCTS_LIMIT;
-  let PRODUCTSFullUrl = "";
-  if (q === "") {
-    PRODUCTSFullUrl = `${PRODUCTS_URL}?limit=${PRODUCTS_LIMIT}&skip=${skip}`;
+  let products;
+  let total;
+  if (!q) {
+    const resp = await getAllProducts({
+      limit: PRODUCTS_LIMIT,
+      skip,
+    });
+    products = resp.products;
+    total = resp.total;
   } else {
-    PRODUCTSFullUrl = `${PRODUCTS_SEARCH_URL}?limit=${PRODUCTS_LIMIT}&skip=${skip}&q=${q}`;
+    const resp = await searchProducts({
+      q,
+      limit: PRODUCTS_LIMIT,
+      skip,
+    });
+    products = resp.products;
+    total = resp.total;
   }
-
-  const { products, total } = await fetch(PRODUCTSFullUrl).then<Response>(
-    (res) => res.json()
-  );
 
   console.log("total: ", total);
 
