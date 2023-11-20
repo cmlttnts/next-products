@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useId, useState } from "react";
+import type { FormEvent } from "react";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -14,7 +15,8 @@ export default function Search() {
     setStr(str);
   }
 
-  function handleSearchButton() {
+  function handleSearchButton(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (str === "") {
@@ -26,7 +28,10 @@ export default function Search() {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <form
+      className="flex sm:flex-row flex-col  gap-2 justify-center items-center"
+      onSubmit={handleSearchButton}
+    >
       <label htmlFor={`search-${id}`}></label>
       <input
         type="text"
@@ -36,12 +41,9 @@ export default function Search() {
         value={str}
         onChange={(e) => handleSearch(e.target.value)}
       />
-      <Button
-        className="bg-violet-700 w-max pl-5 pr-5"
-        onClick={handleSearchButton}
-      >
+      <Button className="bg-violet-700 w-max pl-5 pr-5" type="submit">
         Ara
       </Button>
-    </div>
+    </form>
   );
 }

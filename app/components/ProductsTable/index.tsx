@@ -10,6 +10,7 @@ type Product = {
 
 type Response = {
   products: Product[];
+  total: number;
 };
 const BASE_URL = "https://dummyjson.com";
 const PRODUCTS_URL = `${BASE_URL}/products`;
@@ -31,9 +32,11 @@ export default async function ProductsTable({
     PRODUCTSFullUrl = `${PRODUCTS_SEARCH_URL}?limit=${PRODUCTS_LIMIT}&skip=${skip}&q=${q}`;
   }
 
-  const { products } = await fetch(PRODUCTSFullUrl).then<Response>((res) =>
-    res.json()
+  const { products, total } = await fetch(PRODUCTSFullUrl).then<Response>(
+    (res) => res.json()
   );
+
+  console.log("total: ", total);
 
   return (
     <div>
@@ -68,7 +71,7 @@ export default async function ProductsTable({
           ))}
         </tbody>
       </table>
-      <Pagination page={page} limit={10} current={products.length} />
+      <Pagination page={page} limit={10} total={total} />
     </div>
   );
 }
