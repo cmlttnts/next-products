@@ -20,12 +20,13 @@ export default function CreateNewProduct() {
       description,
     });
 
-    return redirect(`/products`);
+    // NOTE: not really created so we redirect to random product
+    return redirect(`/products/1`);
   }
 
   return (
     <div className="flex flex-col">
-      <h1>Yeni Ürün Oluştur</h1>
+      <h1 className="font-bold">Yeni Ürün Oluştur</h1>
       <form
         className="flex flex-col border border-gray-300 p-5 gap-2"
         action={handleSubmit}

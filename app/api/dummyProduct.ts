@@ -46,11 +46,15 @@ export async function searchProducts({
   }
 }
 
-export async function createProduct(product: {
+type BasicProduct = {
   title: string;
   price: number;
   description: string;
-}): Promise<Product> {
+};
+
+export async function createProduct(
+  product: BasicProduct
+): Promise<BasicProduct> {
   const response = await fetch(PRODUCT_CREATE_URL, {
     method: "POST",
     headers: {
@@ -64,5 +68,34 @@ export async function createProduct(product: {
     return data;
   } else {
     throw new Error("Error creating product: " + response.statusText);
+  }
+}
+
+export async function getProductById(id: string): Promise<BasicProduct> {
+  const response = await fetch(`${PRODUCTS_URL}/${id}`);
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error("Error fetching product: " + response.statusText);
+  }
+}
+
+export async function updateProduct(
+  updatedProduct: BasicProduct & { id: string }
+): Promise<BasicProduct> {
+  const response = await fetch(`${PRODUCTS_URL}/${updatedProduct.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedProduct),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error("Error updating product: " + response.statusText);
   }
 }

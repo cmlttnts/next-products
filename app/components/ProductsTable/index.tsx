@@ -1,5 +1,6 @@
 import { getAllProducts, searchProducts } from "@/app/api/dummyProduct";
 import Pagination from "../Pagination";
+import Link from "next/link";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -32,8 +33,6 @@ export default async function ProductsTable({
     total = resp.total;
   }
 
-  console.log("total: ", total);
-
   return (
     <div>
       <table className="products-table">
@@ -48,8 +47,10 @@ export default async function ProductsTable({
         <tbody>
           {products.map((product, index) => (
             <tr key={product.id} className="h-[50px]">
-              <td className="text-center">{index + 1}</td>
-              <td>{product.title}</td>
+              <td className="text-center">{skip + index + 1}</td>
+              <td className="link text-blue-500">
+                <Link href={`/products/${product.id}`}>{product.title}</Link>
+              </td>
               <td className="text-right">
                 {Intl.NumberFormat("tr-TR", {
                   style: "currency",
