@@ -2,7 +2,7 @@
 
 import type { MultipleProductsResponse, Product } from "../types";
 
-const BASE_URL = "https://dummyjson.com";
+const BASE_URL = process.env.API_BASE_URL || "http://localhost:3000";
 const PRODUCTS_URL = `${BASE_URL}/products`;
 const PRODUCTS_SEARCH_URL = `${PRODUCTS_URL}/search`;
 const PRODUCT_CREATE_URL = `${PRODUCTS_URL}/add`;

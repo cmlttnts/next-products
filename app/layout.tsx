@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} pt-4 pl-4 pr-4`}>
-        <header className="w-full flex items-center mt-2 mb-2">
+        <header className="w-full flex items-center mt-2 mb-2 flex-wrap">
           <Nav />
           <LoginButtons />
         </header>
