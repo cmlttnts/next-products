@@ -13,7 +13,7 @@ export default function CreateNewProduct() {
     const description = formData.get("description") as string;
 
     // TODO: Validation steps
-
+    // TODO: handle api errors
     await createProduct({
       title,
       price: Number(price),

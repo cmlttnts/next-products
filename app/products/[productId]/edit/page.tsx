@@ -34,6 +34,7 @@ export default async function EditProductPage({
     return redirect(`/products/${params.productId}`);
   }
 
+  // TODO: handle api errors
   const product = await getProductById(params.productId);
 
   return (

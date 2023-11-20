@@ -1,3 +1,5 @@
+"use server";
+
 import type { MultipleProductsResponse, Product } from "../types";
 
 const BASE_URL = "https://dummyjson.com";
@@ -52,6 +54,8 @@ type BasicProduct = {
   description: string;
 };
 
+type BasicProductWithId = BasicProduct & { id: string };
+
 export async function createProduct(
   product: BasicProduct
 ): Promise<BasicProduct> {
@@ -71,7 +75,7 @@ export async function createProduct(
   }
 }
 
-export async function getProductById(id: string): Promise<BasicProduct> {
+export async function getProductById(id: string): Promise<BasicProductWithId> {
   const response = await fetch(`${PRODUCTS_URL}/${id}`);
   if (response.ok) {
     const data = await response.json();
@@ -82,14 +86,15 @@ export async function getProductById(id: string): Promise<BasicProduct> {
 }
 
 export async function updateProduct(
-  updatedProduct: BasicProduct & { id: string }
-): Promise<BasicProduct> {
-  const response = await fetch(`${PRODUCTS_URL}/${updatedProduct.id}`, {
+  updatedProduct: BasicProductWithId
+): Promise<BasicProductWithId> {
+  const { id, ...rest } = updatedProduct;
+  const response = await fetch(`${PRODUCTS_URL}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(updatedProduct),
+    body: JSON.stringify(rest),
   });
 
   if (response.ok) {
@@ -97,5 +102,15 @@ export async function updateProduct(
     return data;
   } else {
     throw new Error("Error updating product: " + response.statusText);
+  }
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  const response = await fetch(`${PRODUCTS_URL}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error deleting product: " + response.statusText);
   }
 }

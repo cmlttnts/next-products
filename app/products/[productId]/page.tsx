@@ -1,4 +1,5 @@
 import { getProductById } from "@/app/api/dummyProduct";
+import DeleteProduct from "@/app/components/DeleteProduct";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +10,7 @@ export default async function ProductDetailPage({
 }: {
   params: { productId: string };
 }) {
+  // TODO: handle api errors
   const product = await getProductById(params.productId);
 
   return (
@@ -25,9 +27,12 @@ export default async function ProductDetailPage({
           readOnly
           defaultValue={product.description}
         />
-        <Button className="bg-violet-700 w-max pl-5 pr-5">
-          <Link href={`/products/${params.productId}/edit`}>Düzenle</Link>
-        </Button>
+        <div>
+          <DeleteProduct productId={params.productId} />
+          <Button className="bg-violet-700 w-max pl-5 pr-5">
+            <Link href={`/products/${params.productId}/edit`}>Düzenle</Link>
+          </Button>
+        </div>
       </form>
     </div>
   );
