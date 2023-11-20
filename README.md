@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Products Listing + Crud pages
+
+NOTE: Add `API_BASE_URL` env to your `.env.local` file
+
+```bash
+# not really secret, so it is ok to commit
+API_BASE_URL=https://dummyjson.com
+```
 
 ## Getting Started
 
